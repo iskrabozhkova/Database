@@ -2,13 +2,14 @@ use ships;
 
 --1
 select name
-from ships, classes
-where  DISPLACEMENT > 50000 and ships.CLASS = CLASSES.class;
+from ships join classes on (ships.CLASS = CLASSES.class)
+where  DISPLACEMENT > 50000;
 
 --2
 select ships.name, displacement, numguns
-from ships, classes, outcomes
-where battle = 'Guadalcanal' and ships.CLASS = CLASSES.class and outcomes.SHIP = ships.NAME ;
+from ships join classes on (ships.CLASS = CLASSES.class)
+	   join outcomes on (outcomes.SHIP = ships.NAME)
+where battle = 'Guadalcanal';
 
 --3
 (select country
