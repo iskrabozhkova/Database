@@ -19,8 +19,8 @@ where movieyear = '1995' and studioname = 'MGM'
 
 --3
 select distinct name
-from movieexec, movie
-where STUDIONAME = 'MGM' and cert# = PRODUCERC#;
+from MOVIEEXEC join movie on (CERT# = PRODUCERC#)
+where STUDIONAME = 'MGM'
 
 --4
 select m1.title
