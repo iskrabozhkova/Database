@@ -23,9 +23,9 @@ from classes
 where type = 'bc')
 
 --4
-select o2.SHIP
-from outcomes o1, outcomes o2, battles b1, battles b2
-where o1.RESULT = 'damaged' and
-	b1.DATE < b2.DATE and 
-	o1.SHIP = o2.SHIP and
-	b1.NAME = o1.BATTLE and b2.NAME = o2.BATTLE
+select o1.ship 
+from outcomes o1
+	join battles b1 on o1.battle=b1.name
+	join outcomes o2 on o1.ship=o2.ship
+	join battles b2 on o2.battle=b2.name
+where b1.date < b2.date AND o1.result = 'damaged';
