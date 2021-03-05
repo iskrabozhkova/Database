@@ -2,21 +2,21 @@ use pc;
 
 --1
 select distinct maker, speed
-from product, laptop
-where hd > 9 and laptop.model = product.model;
+from product join laptop on (laptop.model = product.model)
+where hd >=9
 
 --2
 (select product.model, price
-from laptop, product
-where maker = 'B' and product.model = laptop.model)
+from laptop join product on (product.model = laptop.model)
+where maker = 'B' )
 UNION
 (select product.model, price
-from printer, product
-where maker = 'B' and product.model = printer.model)
+from printer join product on (product.model = printer.model)
+where maker = 'B')
 UNION
 (select product.model, price
-from pc, product
-where maker = 'B' and product.model = pc.model)
+from pc join product on (product.model = pc.model)
+where maker = 'B')
 
 --3
 (select maker
