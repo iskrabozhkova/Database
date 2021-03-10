@@ -1,0 +1,27 @@
+use movies;
+
+--1
+select name
+from moviestar
+where gender = 'F' and name in (select name
+								from MOVIEEXEC
+								where NETWORTH > 10000000)
+
+--2
+select name
+from moviestar
+where name not in (select name
+					from MOVIEEXEC)
+
+--3
+select title
+from movie
+where length > (select length
+				from MOVIE
+				where title = 'Star Wars')
+--4
+select title, MOVIEEXEC.NAME
+from movie join MOVIEEXEC on (MOVIEEXEC.CERT# = MOVIE.PRODUCERC#)
+where NETWORTH  > (select NETWORTH
+					from MOVIEEXEC
+					where MOVIEEXEC.NAME = 'Merv Griffin')
