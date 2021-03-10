@@ -1,0 +1,38 @@
+use pc;
+
+--1
+select maker
+from product
+where model in (select model
+				from pc
+				where pc.speed > 500)
+--2
+select code, model, price
+from printer
+where price >= ALL(select price
+					from printer)
+--3
+select *
+from laptop
+where speed < ALL (select speed
+					from pc)
+
+--4
+select model, price
+from pc 
+where price >= ALL(select price from pc UNION select price from laptop UNION select price from printer)
+UNION
+select model, price
+from printer
+where price >= ALL(select price from pc UNION select price from laptop UNION select price from printer)
+UNION
+select model, price
+from laptop 
+where price >= ALL(select price from pc UNION select price from laptop UNION select price from printer)
+
+--5
+select maker
+from product
+where model in (select model
+				from printer
+				where color = 'y' AND price <= ALL (select price from printer where color = 'y' )) 
