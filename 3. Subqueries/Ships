@@ -1,0 +1,38 @@
+use ships;
+
+--1
+select distinct country
+from classes
+where numguns >= ALL (select numguns
+					from classes)
+--2
+select distinct class
+from SHIPS
+where name in (select ship
+				from outcomes
+				where result = 'sunk')
+
+--3
+select name, class
+from ships
+where class in (select class
+				from classes
+				where bore = 16)
+--4
+select battle
+from outcomes
+where ship in (select name
+				from SHIPS
+				where class = 'Kongo')
+
+--5
+select class, name
+from ships
+where class in (select CLASS
+				from CLASSES AS c
+				where numguns >= ALL (select numguns
+									from classes
+									where bore = c.BORE))
+order by class;
+
+
