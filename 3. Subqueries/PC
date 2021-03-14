@@ -36,3 +36,13 @@ from product
 where model in (select model
 				from printer
 				where color = 'y' AND price <= ALL (select price from printer where color = 'y' )) 
+				
+--6
+use pc;
+
+SELECT maker
+FROM product
+WHERE model in (SELECT model 
+				FROM (SELECT* FROM pc WHERE ram <= ALL (SELECT ram FROM pc)) pc2
+				WHERE speed >= ALL(SELECT speed FROM (SELECT* FROM pc WHERE ram <= ALL (SELECT ram FROM pc)) pc3)
+				)
