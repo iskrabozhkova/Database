@@ -1,0 +1,25 @@
+use pc;
+
+--1
+select maker, product.model, product.type
+from product left join pc on (pc.model = product.model)
+			left join  printer on (printer.model = product.model)
+			left join laptop on(laptop.model = product.model)
+where laptop.code is NULL AND printer.code is NULL AND pc.code is NULL
+
+--2
+select product.maker
+from product inner join laptop on (laptop.model = product.model)
+INTERSECT
+select product.maker
+from product inner join printer on (product.model = printer.model)
+
+--3
+select distinct l1.hd
+from laptop l1 inner join laptop l2 on (l1.hd = l2.hd)
+where l1.model != l2.model
+
+--4
+select product.model
+from product left join pc on (pc.model = product.model)
+where maker is NULL
