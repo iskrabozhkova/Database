@@ -1,0 +1,27 @@
+use movies;
+
+--1
+select title, MOVIEEXEC.NAME
+from MOVIE inner join MOVIEEXEC on (MOVIEEXEC.CERT# = MOVIE.PRODUCERC#)
+where MOVIEEXEC.CERT# = (select MOVIE.PRODUCERC#
+						from MOVIE
+						where title = 'Star Wars')
+--2
+select distinct MOVIEEXEC.name
+from starsin inner join movie on (movietitle = title) inner join MOVIEEXEC on CERT# = PRODUCERC#
+where STARNAME = 'Harrison Ford'
+--3
+select distinct studioname, starname
+from movie inner join starsin on title = movietitle 
+order by studioname
+
+--4
+select starname, NETWORTH, title
+from movie inner join starsin on (title = movietitle)
+			inner join MOVIEEXEC on (CERT# = PRODUCERC#)
+where NETWORTH >= ALL (select NETWORTH from MOVIEEXEC)
+
+--5
+select MOVIESTAR.name, STARSIN.MOVIETITLE
+from MOVIESTAR left join starsin on name = starname
+where MOVIETITLE is NULL
