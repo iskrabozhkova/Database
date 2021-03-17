@@ -1,0 +1,45 @@
+use ships;
+
+--1
+select *
+from ships inner join classes on ships.CLASS = CLASSES.CLASS
+order by name;
+
+--2
+select *
+from ships right join classes on ships.CLASS = CLASSES.CLASS
+order by name;
+
+--3
+select country, ships.name
+from ships left join outcomes on (ships.NAME = outcomes.SHIP)
+	inner join classes on(CLASSES.CLASS = SHIPS.CLASS)
+where outcomes.SHIP is NULL
+order by country;
+
+--4
+select ships.name AS 'Ship Name'
+from classes inner join ships on (classes.CLASS = ships.CLASS)
+where NUMGUNS >= 7 and launched = '1916'
+
+--5
+select outcomes.ship, BATTLES.name, BATTLES.DATE
+from outcomes inner join battles on battles.NAME = OUTCOMES.battle
+where result = 'sunk'
+order by battle
+
+--6
+select ships.NAME, displacement, launched
+from ships inner join classes on (ships.class = CLASSES.CLASS)
+where ships.NAME = CLASSES.CLASS
+
+--7
+select*
+from classes left join ships on (CLASSES.CLASS = ships.CLASS)
+where launched is NULL
+
+--8
+select ships.name, displacement, numguns, result
+from classes inner join ships on classes.class = ships.class
+inner join outcomes on ships.name = outcomes.ship 
+where battle = 'North Atlantic'
