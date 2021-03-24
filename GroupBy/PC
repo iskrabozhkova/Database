@@ -1,0 +1,51 @@
+use pc;
+
+--1
+select cast(AVG(speed) as decimal(15,2)) AvgSpeed
+from pc
+
+--2
+select maker, AVG(screen) as AvgScreen
+from laptop join product on(product.model = laptop.model)
+group by product.maker
+
+--3
+
+select cast(AVG(speed) as decimal(10,2)) as AvgSpeed
+from laptop
+where price > 1000
+
+--4
+select cast(AVG(price) as decimal(10,2))as AvgPrice
+from pc join product on (pc.model = product.model)
+where maker = 'A'
+
+
+--6
+select speed, AVG(price) as AvgPrice 
+from pc
+group by speed;
+
+--7
+select maker, COUNT(pc.model) as number_of_pc
+from product join pc on (pc.model = product.model)
+group by maker having count(pc.model) >=3
+
+--8
+select top 1 maker, MAX(price) as price
+from product join pc on (product.model = pc.model)
+group by maker
+order by price desc
+
+--9
+select speed, AVG(price) as AvgPrice
+from pc
+where speed > 800
+group by speed
+
+--10
+select maker, cast(AVG(hd) as decimal(10,2))as avgHd
+from product join pc on (product.model = pc.model)
+where maker in (select maker
+				from printer join product on (printer.model = product.model))
+group by maker;
