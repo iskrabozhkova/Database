@@ -1,0 +1,42 @@
+use ships;
+
+--1
+select COUNT(class) as NO_Classes
+from classes
+where type = 'bb'
+
+--2
+select class, AVG(numguns) as avgGuns
+from classes
+where type = 'bb'
+group by class;
+
+--3
+select AVG(numguns) as avgGuns
+from classes
+where type = 'bb';
+
+--4
+select class, MIN(launched) as firstYear, MAX(launched) as secondYear
+from ships
+group by class;	
+
+--5
+select class, COUNT(ship) as NO_SUNK
+from ships join outcomes on (OUTCOMES.SHIP = ships.NAME)
+where result = 'sunk'
+group by class;
+
+--6
+select class, COUNT(ship) as NO_SUNK
+from ships join outcomes on (OUTCOMES.SHIP = ships.NAME)
+where result = 'sunk' and class in (select classes.class
+									from classes join ships on(classes.class = ships.CLASS)
+									group by classes.class
+									having COUNT(classes.class) >=2)
+group by class;
+
+--7
+select country, cast(AVG(bore) as decimal(10,2)) as avg_bore
+from classes join ships on (classes.CLASS = ships.CLASS)
+group by country;
