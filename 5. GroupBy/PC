@@ -20,6 +20,15 @@ select cast(AVG(price) as decimal(10,2))as AvgPrice
 from pc join product on (pc.model = product.model)
 where maker = 'A'
 
+--5
+select maker, AVG(price) as avgPrice
+from (select model, price
+     from pc
+     UNION ALL
+     select model, price
+     from laptop) t1 join product on (t1.model = product.model)
+where maker = 'B'
+group by maker;
 
 --6
 select speed, AVG(price) as AvgPrice 
@@ -41,11 +50,11 @@ order by price desc
 select speed, AVG(price) as AvgPrice
 from pc
 where speed > 800
-group by speed
+group by speed;
 
 --10
 select maker, cast(AVG(hd) as decimal(10,2))as avgHd
 from product join pc on (product.model = pc.model)
 where maker in (select maker
-				from printer join product on (printer.model = product.model))
+		from printer join product on (printer.model = product.model))
 group by maker;
