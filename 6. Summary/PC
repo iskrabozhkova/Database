@@ -1,0 +1,16 @@
+use pc;
+
+--1
+select model, code, screen
+from laptop
+where screen = '15' or screen = '11'
+
+--2
+
+--4
+SELECT t1.code, t1.maker, COUNT(t2.code) AS num_pc_higher_price 
+FROM (SELECT code, maker, price 
+	  FROM pc JOIN product on pc.model = product.model) t1, (SELECT code, model, price AS price 
+															                             FROM pc) t2 
+	  WHERE t1.price <= t2.price 
+GROUP BY t1.code,t1.maker;
