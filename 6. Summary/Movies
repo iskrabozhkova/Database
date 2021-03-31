@@ -1,0 +1,42 @@
+use movies;
+
+--1
+select title, year, length
+from movie
+where (length > 120 OR length is NULL) AND year < 2000;
+
+--2
+select name, gender
+from MOVIESTAR
+where name LIKE 'J%' AND birthdate > 1948
+order by name desc;
+
+--3
+select studioname, COUNT(distinct starname) as numActors
+from STARSIN join movie on (STARSIN.MOVIETITLE = movie.TITLE)
+group by STUDIONAME
+having count(starname) > 0;
+
+--4
+select starname, COUNT(movietitle) as numMovies
+from starsin
+group by starname;
+
+--5
+--select studioname, title, year
+--from movie 
+
+--6
+select top 1 name
+from MOVIESTAR
+where gender = 'M'
+
+--7
+
+
+--8
+SELECT t1.title, movie.year, count as num_actors
+FROM (SELECT title, count(starname) as count
+	 FROM movie join starsin on (movietitle = title) 
+	 GROUP BY title 
+	 HAVING count(starname)>2) t1 join movie on (t1.title = movie.title);
