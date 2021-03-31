@@ -1,0 +1,43 @@
+use ships;
+--1
+select distinct ship
+from outcomes
+where ship LIKE 'C%' or ship LIKE 'K%';
+
+--2
+select distinct ships.name, country
+from ships join classes on (ships.CLASS = classes.CLASS)
+	left join outcomes on (ships.name = outcomes.SHIP)
+where result != 'sunk' or result is null;
+
+--3
+select country, COUNT(result) as numSunkShips
+from classes left join ships on (ships.CLASS = classes.CLASS)
+	left join outcomes on (ships.NAME = outcomes.SHIP)
+where result = 'sunk' or result is null
+group by country;
+
+--4
+select battle
+from outcomes
+group by battle
+having count(ship) > (select count(ship)
+					from outcomes
+					where battle ='Guadalcanal')
+
+--5
+select battle
+from outcomes
+group by battle
+having count(ship) > (select count(ship)
+					from outcomes
+					where battle ='Surigao Strait')
+--6
+
+--7
+select count(ship) as countShip
+from outcomes 
+where result = 'ok' and ship in (select ship 
+								from outcomes
+								where result = 'damaged')
+--8
