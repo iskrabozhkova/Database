@@ -39,5 +39,16 @@ select distinct pc1.model, pc2.model
 from pc AS pc1, pc AS pc2
 where pc1.speed = pc2.speed and pc1.ram = pc2.ram and pc1.model > pc2.model
 
+--6
+use pc;
+
+select distinct maker
+from product 
+where model in (select model
+				        from pc
+				        where speed > 400
+				        group by model
+				        having COUNT(model) > 1)
+
 
 
