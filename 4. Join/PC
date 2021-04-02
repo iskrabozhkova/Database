@@ -20,6 +20,6 @@ from laptop l1 inner join laptop l2 on (l1.hd = l2.hd)
 where l1.model != l2.model
 
 --4
-select product.model
-from product left join pc on (pc.model = product.model)
+select pc.model
+from pc left join product on (product.model = pc.model)
 where maker is NULL
