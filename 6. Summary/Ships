@@ -33,6 +33,14 @@ having count(ship) > (select count(ship)
 					from outcomes
 					where battle ='Surigao Strait')
 --6
+select name, t1.displacement, t1.numguns
+from (select class, displacement, numguns
+		from classes
+		where displacement <= ALL (select displacement from classes)) t1
+	join ships on (ships.CLASS = t1.class)
+where t1.NUMGUNS >= ALL (select numguns
+						from classes
+						where displacement <= ALL (select displacement from classes))
 
 --7
 select count(ship) as countShip
