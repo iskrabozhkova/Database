@@ -6,27 +6,24 @@ from laptop
 where screen = '15' or screen = '11'
 
 --2
-
-select distinct pc.model
-from pc join product p on p.model = pc.model
-	join (select l.price, p.maker
-			from laptop l join product p on p.model = l.model) t on t.maker = p.maker
-group by pc.model, pc.price, t.price
-having t.price > pc.price
-order by pc.model;
+SELECT DISTINCT model 
+FROM  (SELECT pc.model,maker,price 
+	   FROM pc JOIN product ON pc.model = product.model) AS pcs 
+	   JOIN (SELECT maker, MIN(price) as min_price 
+			FROM laptop JOIN product ON laptop.model = product.model 
+			GROUP BY maker)
+AS laps ON laps.maker = pcs.maker WHERE price < min_price;
 
 --3
-select t1.model, t1.price
-from (select p.maker, pc.model, avg(pc.price) as price
-	  from pc
-	  join product p on p.model = pc.model
-	  group by pc.model, p.maker) t1
-join (select p.maker, min(l.price) as price
-	  from laptop l
-	  join product p on p.model = l.model
-	  group by p.maker) t2 on t1.maker = t2.maker 
-where t1.price < t2.price
-order by price desc;
+SELECT pcs.model, avg_price 
+FROM (SELECT t1.model,maker,avg_price 
+	  FROM (SELECT model, AVG(price) AS avg_price 
+			FROM pc 
+			GROUP BY model) t1 JOIN product  ON product.model = t1.model) pcs 
+JOIN (SELECT maker, MIN(price) as min_price
+		FROM laptop JOIN product ON laptop.model = product.model 
+		GROUP BY maker) laps ON laps.maker = pcs.maker 
+	WHERE avg_price < min_price;
 
 --4
 SELECT t1.code, t1.maker, COUNT(t2.code) AS num_pc_higher_price 
@@ -35,3 +32,13 @@ FROM (SELECT code, maker, price
 															                             FROM pc) t2 
 	  WHERE t1.price <= t2.price 
 GROUP BY t1.code,t1.maker;
+
+SELECT pcs.model, avg_price 
+FROM (SELECT t1.model,maker,avg_price 
+	  FROM (SELECT model, AVG(price) AS avg_price 
+			FROM pc 
+			GROUP BY model) t1 JOIN product  ON product.model = t1.model) pcs 
+JOIN (SELECT maker, MIN(price) as min_price
+		FROM laptop JOIN product ON laptop.model = product.model 
+		GROUP BY maker) laps ON laps.maker = pcs.maker 
+	WHERE avg_price < min_price;
