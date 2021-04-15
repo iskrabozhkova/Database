@@ -1,0 +1,15 @@
+use ships;
+
+INSERT INTO CLASSES 
+VALUES ('Nelson', 'bb', 'Gt.Britain', 9, 16, 34000)
+INSERT INTO SHIPS VALUES ('Nelson', 'Nelson', 1927)
+INSERT INTO SHIPS VALUES ('Rodney', 'Rodney', 1927)
+
+DELETE
+FROM ships
+WHERE name in (SELECT ship
+				FROM outcomes
+				WHERE result = 'sunk')
+
+UPDATE classes
+SET bore = bore * 2.5, DISPLACEMENT = DISPLACEMENT / 1.1
