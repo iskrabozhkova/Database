@@ -1,0 +1,12 @@
+use movies;
+
+INSERT INTO moviestar (name, birthdate)
+VALUES ('Nicole Kidman', '1967-06-20')
+
+DELETE
+FROM MOVIEEXEC
+WHERE networth < 30000000;
+
+DELETE 
+FROM moviestar
+WHERE address is NULL;
