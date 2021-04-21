@@ -1,0 +1,35 @@
+create database facebook;
+
+use facebook;
+
+create table users(
+	id int,
+	email varchar(255),
+	password varchar(255),
+	date date
+)
+create table friends(
+	user1 int,
+	user2 int
+)
+create table walls(
+	idWriter int,
+	idOwner int,
+	text varchar(1000),
+	date date
+)
+create table groups(
+	id int,
+	name varchar(255),
+	description varchar(1000) default ''
+)
+create table groupMembers(
+	idGroup int,
+	idUser int
+)
+
+INSERT INTO friends
+values(1, 2)
+
+select*
+from friends;
