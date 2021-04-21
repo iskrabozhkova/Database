@@ -1,0 +1,33 @@
+create database pc2;
+
+use pc2;
+
+create table PRODUCT(
+	maker char(1),
+	model char(1),
+	type varchar(7)
+)
+create table PRINTER(
+	code int,
+	model char(4),
+	price decimal(16,2)
+)
+INSERT INTO PRODUCT
+VALUES ('A', 'p', 'printer')
+
+INSERT INTO PRINTER
+VALUES(1000, '4B50', 15.23)
+
+select*
+from product;
+
+select*
+from printer;
+
+alter table PRINTER add type varchar(6);
+alter table PRINTER add color char(1) DEFAULT 'n';
+
+alter table PRINTER drop column price;
+
+drop table PRINTER;
+drop table PRODUCT;
