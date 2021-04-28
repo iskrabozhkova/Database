@@ -1,0 +1,64 @@
+create database flights;
+
+use flights;
+
+create table AIRLINE(
+	code varchar(2) constraint pk_airline PRIMARY KEY,
+	name varchar(50),
+	country varchar(50)
+)
+create table AIRPORT(
+	code varchar(3) constraint pk_airport PRIMARY KEY,
+	name varchar(100) constraint uk_airport UNIQUE, 
+	country varchar(100),
+	city varchar(100),
+)
+create table AIRPLANE(
+	code varchar(3) constraint pk_airplane PRIMARY KEY,
+	type varchar(60),
+	seats int,
+	year smallint,
+	CHECK (seats > 0)
+)
+create table FLIGHT(
+	fnumber varchar(10) constraint pk_flight PRIMARY KEY,
+	airline_operator varchar(2),
+	dep_airport varchar(3),
+	arr_airport varchar(3),
+	flight_time date NOT NULL,
+	flight_duration int NOT NULL,
+	airplane varchar(10)
+)
+
+alter table FLIGHT add constraint fk_filght_airline FOREIGN KEY(airline_operator) references AIRLINE(code);
+
+create table CUSTOMER(
+	id int constraint pk_customer PRIMARY KEY,
+	fname varchar(20),
+	lname varchar(20),
+	email varchar(255)
+	CHECK (email LIKE '%@%.%' and datalength(email) > 6)
+)
+create table AGENCY(
+	name varchar(100) constraint pk_agency PRIMARY KEY,
+	country varchar(100),
+	city  varchar(100),
+	phone varchar(20)
+)
+create table BOOKING(
+	code varchar(10) constraint pk_booking PRIMARY KEY,
+	agency varchar(100),
+	airline_code varchar(2),
+	flight_number varchar(10),
+	customer_id int,
+	booking_date date NOT NULL,
+	flight_date date NOT NULL,
+	price int NOT NULL,
+	status char(1),
+	CHECK (status in(0,1)),
+	CHECK (booking_date < flight_date)
+)
+
+alter table BOOKING add constraint fk_booking_airline FOREIGN KEY (airline_code) references AIRLINE(code);
+alter table BOOKING add constraint fk_booking_flight FOREIGN KEY (flight_number) references FLIGHT(fnumber);
+alter table BOOKING add constraint fk_booking_customer FOREIGN KEY (customer_id) references CUSTOMER(id);
