@@ -1,0 +1,53 @@
+--2
+create view view_two
+AS
+SELECT CUSTOMERS.FNAME
+FROM CUSTOMERS join BOOKINGS on (CUSTOMER_ID = CUSTOMERS.ID)
+GROUP BY AGENCY, CUSTOMERS.FNAME
+HAVING COUNT(CUSTOMER_ID) >= ALL (select count(CUSTOMER_ID)
+								  from CUSTOMERS join BOOKINGS on (CUSTOMER_ID = CUSTOMERS.ID)
+								  GROUP BY AGENCY, CUSTOMERS.FNAME)
+
+select * from view_two
+
+--3
+CREATE VIEW view_three
+AS
+SELECT *
+FROM AGENCIES
+WHERE city='Sofia'
+WITH CHECK OPTION;
+
+select * from view_three;
+
+--4
+CREATE VIEW view_four
+AS
+SELECT *
+FROM AGENCIES
+WHERE phone is NULL
+WITH CHECK OPTION;
+
+select * from view_four
+
+--8
+use pc;
+
+create index index_product
+on product(maker, model, type)
+
+exec sp_helpindex product
+
+drop index product.index_product
+
+
+--9
+use ships;
+
+
+CREATE INDEX idx_classes
+ON classes(type)
+
+exec sp_helpindex classes
+
+drop index classes.idx_classes
