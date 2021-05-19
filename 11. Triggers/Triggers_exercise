@@ -1,0 +1,30 @@
+use FLIGHTS;
+
+--1
+ALTER TABLE FLIGHTS ADD num_pass int;
+--2
+ALTER TABLE AGENCIES ADD num_book int;
+--3
+CREATE TRIGGER bookings_add ON BOOKINGS AFTER INSERT AS
+BEGIN
+UPDATE FLIGTHS
+SET num_pass = num_pass + 1
+WHERE FNUMBER = (SELECT FLIGHT_NUMBER FROM INSERTED);
+UPDATE AGENCIES 
+SET num_book = num_book
+WHERE name = (SELECT agency from inserted);
+END
+--4
+CREATE TRIGGER booking_delete ON BOOKINGS AFTER DELETE AS
+BEGIN
+UPDATE FILGHTS SET num_pass = num_pass - 1 WHERE fnumber = (select FLIGHT_NUMBER from deleted)
+UPDATE AGENCIES SET num_book = num_book - 1 WHERE name = (SELECT AGENCY from deleted)
+END
+--5
+CREATE TRIGGER booking_update ON BOOKINGS AFTER UPDATE AS
+BEGIN
+UPDATE FLIGTHS SET num_pass = num_pass + 1 WHERE FNUMBER = (SELECT FLIGHT_NUMBER FROM INSERTED);
+UPDATE AGENCIES SET num_book = num_book WHERE name = (SELECT agency from inserted);
+UPDATE FILGHTS SET num_pass = num_pass - 1 WHERE fnumber = (select FLIGHT_NUMBER from deleted);
+UPDATE AGENCIES SET num_book = num_book - 1 WHERE name = (SELECT AGENCY from deleted);
+END
